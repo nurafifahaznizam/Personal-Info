@@ -1,0 +1,195 @@
+<!DOCTYPE html> <!-- NURAFIFAH BINTI KHAIRUL AZNIZAM A25DW0147-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income Tax Calculator</title>
+    <style>
+    body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .calculator {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .matric {
+            text-align: center;
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        #result {
+            background: #f9f9f9;
+            font-weight: bold;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-calc { background: aqua; color: black; }
+        .btn-calc:hover { background: pink; }
+    </style>
+</head>
+
+<body>
+    <a href="PersonalInfo.html" style="position: absolute; top: 20px; 
+    left: 20px; text-decoration: none; color: black; font-size: 0.95rem;">← Back to Profile</a>
+
+    <div class="calculator">
+    <h2>Income Tax Calculator (Malaysia)</h2>
+    <p class="matric">Nurafifah | A25DW0147</p>
+    
+    <label>Yearly Income (RM): </label>
+    <input type="number" id="income" placeholder="Enter your yearly income">
+
+    <div class="buttons">
+        <button class="btn-calc" onclick="calculateTax()">Calculate Tax</button><br>
+    </div>
+    <div id="result"></div>
+    
+    </div>
+
+
+    <script>
+        function calculateTax() {
+            let income = parseFloat(document.getElementById('income').value);
+            let resultDiv = document.getElementById('result');
+            let tax = 0;
+            let category = "";
+            let calculation = "";
+            
+            if (isNaN(income) || income < 0) {
+                resultDiv.innerHTML = "Please enter a valid income amount!";
+                return;
+            }
+            
+            if (income <= 5000) {
+                category = "A (0-5,000)";
+                tax = 0;
+                calculation = "First 5,000 × 0% = RM 0";
+            }
+            else if (income <= 20000) {
+                category = "B (5,001-20,000)";
+                tax = (income - 5000) * 0.10;
+                calculation = `First 5,000 × 0% = RM 0<br>Next ${(income - 5000).toFixed(2)} × 10% = RM ${tax.toFixed(2)}`;
+            }
+            else if (income <= 35000) {
+                category = "C (20,001-35,000)";
+                tax = 150 + (income - 20000) * 0.03;
+                calculation = `First 20,000 = RM 150<br>Next ${(income - 20000).toFixed(2)} × 3% = RM ${((income - 20000) * 0.03).toFixed(2)}
+                <br>Total Tax = RM ${tax.toFixed(2)}`;
+            }
+            else if (income <= 50000) {
+                category = "D (35,001-50,000)";
+                tax = 600 + (income - 35000) * 0.08;
+                calculation = `First 35,000 = RM 600<br>Next ${(income - 35000).toFixed(2)} × 8% = RM ${((income - 35000) * 0.08).toFixed(2)}
+                <br>Total Tax = RM ${tax.toFixed(2)}`;
+            }
+            else if (income <= 70000) {
+                category = "E (50,001-70,000)";
+                tax = 1800 + (income - 50000) * 0.13;
+                calculation = `First 50,000 = RM 1,800<br>Next ${(income - 50000).toFixed(2)} × 13% = RM ${((income - 50000) * 0.13).toFixed(2)}
+                <br>Total Tax = RM ${tax.toFixed(2)}`;
+            }
+            else if (income <= 100000) {
+                category = "F (70,001-100,000)";
+                tax = 4400 + (income - 70000) * 0.21;
+                calculation = `First 70,000 = RM 4,400<br>Next ${(income - 70000).toFixed(2)} × 21% = RM ${((income - 70000) * 0.21).toFixed(2)}
+                <br>Total Tax = RM ${tax.toFixed(2)}`;
+            }
+            else if (income <= 250000) {
+                category = "G (100,001-250,000)";
+                tax = 10700 + (income - 100000) * 0.24;
+                calculation = `First 100,000 = RM 10,700<br>Next ${(income - 100000).toFixed(2)} × 24% = RM ${((income - 100000) * 0.24).toFixed(2)}
+                <br>Total Tax = RM ${tax.toFixed(2)}`;
+            }
+            else if (income <= 400000) {
+                category = "H (250,001-400,000)";
+                tax = 46700 + (income - 250000) * 0.245;
+                calculation = `First 250,000 = RM 46,700<br>Next ${(income - 250000).toFixed(2)} × 24.5% = RM ${((income - 250000) * 0.245).toFixed(2)}
+                <br>Total Tax = RM ${tax.toFixed(2)}`;
+            }
+            else if (income <= 600000) {
+                category = "I (400,001-600,000)";
+                tax = 83450 + (income - 400000) * 0.25;
+                calculation = `First 400,000 = RM 83,450<br>Next ${(income - 400000).toFixed(2)} × 25% = RM ${((income - 400000) * 0.25).toFixed(2)}
+                <br>Total Tax = RM ${tax.toFixed(2)}`;
+            }
+            else if (income <= 1000000) {
+                category = "J (600,001-1,000,000)";
+                tax = 133450 + (income - 600000) * 0.26;
+                calculation = `First 600,000 = RM 133,450<br>Next ${(income - 600000).toFixed(2)} × 26% = RM ${((income - 600000) * 0.26).toFixed(2)}
+                <br>Total Tax = RM ${tax.toFixed(2)}`;
+            }
+            else if (income <= 2000000) {
+                category = "K (1,000,001-2,000,000)";
+                tax = 237450 + (income - 1000000) * 0.28;
+                calculation = `First 1,000,000 = RM 237,450<br>Next ${(income - 1000000).toFixed(2)} × 28% = RM ${((income - 1000000) * 0.28).toFixed(2)}
+                <br>Total Tax = RM ${tax.toFixed(2)}`;
+            }
+            else {
+                category = "L (Exceeding 2,000,000)";
+                tax = 517450 + (income - 2000000) * 0.30;
+                calculation = `First 2,000,000 = RM 517,450<br>Next ${(income - 2000000).toFixed(2)} × 30% = RM ${((income - 2000000) * 0.30).toFixed(2)}
+                <br>Total Tax = RM ${tax.toFixed(2)}`;
+            }
+            
+            resultDiv.innerHTML = `
+                <br>
+                Yearly Income: RM ${income.toFixed(2)}<br>
+                Category: ${category}<br><br>
+                Calculation:<br>
+                ${calculation}<br><br>
+                <strong>Total Tax Payable: RM ${tax.toFixed(2)}</strong>
+            `;
+        }
+    </script> 
+</body>
+</html>

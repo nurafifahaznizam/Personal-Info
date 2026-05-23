@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en"> <!-- NURAFIFAH BINTI KHAIRUL AZNIZAM A25DW0147 -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Checker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, 'Segoe UI', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #d4e0f0, #b5c8e5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .container {
+            max-width: 450px;
+            width: 100%;
+            background: white;
+            border-radius: 2rem;
+            padding: 2rem;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1f2b4e;
+            margin-bottom: 0.3rem;
+        }
+
+        .author {
+            text-align: center;
+            color: #6c86a3;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2edff;
+        }
+
+        .field {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.4rem;
+            color: #1e2f41;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #dce5f2;
+            border-radius: 1rem;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #2c5a7a;
+        }
+
+        .gender-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.3rem;
+        }
+
+        .gender-option {
+            flex: 1;
+            text-align: center;
+            padding: 0.6rem;
+            background: #f0f4fa;
+            border-radius: 2rem;
+            cursor: pointer;
+            border: 2px solid #dce5f2;
+        }
+
+        .gender-option.selected {
+            background: #2c5a7a;
+            color: white;
+            border-color: #2c5a7a;
+        }
+
+        .result {
+            background: #f8fafd;
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+
+        .bmi-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+        }
+
+        .bmi-category {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0.3rem 0;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        button {
+            flex: 1;
+            padding: 0.75rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-calc {
+            background: #2c5a7a;
+            color: white;
+        }
+
+        .btn-calc:hover {
+            background: #1f4868;
+        }
+
+        .btn-clear {
+            background: #eef2fa;
+            color: #2c3e66;
+            border: 1px solid #cbdae9;
+        }
+
+        .error {
+            color: #c7372f;
+            background: #fff1f0;
+            border-radius: 1rem;
+            padding: 0.5rem;
+            margin-top: 0.8rem;
+            text-align: center;
+            display: none;
+        }
+
+        .info {
+            font-size: 0.7rem;
+            text-align: center;
+            color: #7a8aaa;
+            margin-top: 1rem;
+        }
+
+        .underweight .bmi-value { color: #0f6b8c; }
+        .normal .bmi-value { color: #2b7a3e; }
+        .overweight .bmi-value { color: #c97e0a; }
+        .obese .bmi-value { color: #bc3900; }
+    </style>
+</head>
+<body>
+
+    <a href="PersonalInfo.html" style="position: absolute; top: 20px; 
+    left: 20px; text-decoration: none; color: black; font-size: 0.95rem;">← Back to Profile</a>
+
+<div class="container">
+    <h1>✨ BMI Checker</h1>
+    <div class="author">Nurafifah | A25DW0147</div>
+
+    <div class="field">
+        <label>👤 Gender</label>
+        <div class="gender-group" id="genderGroup">
+            <div class="gender-option" data-gender="female" onclick="selectGender('female')">♀️ Female</div>
+            <div class="gender-option selected" data-gender="male" onclick="selectGender('male')">♂️ Male</div>
+        </div>
+        <input type="hidden" id="genderValue" value="male">
+    </div>
+
+    <div class="field">
+        <label>📏 Height (cm)</label>
+        <input type="number" id="height" placeholder="e.g., 170">
+    </div>
+
+    <div class="field">
+        <label>⚖️ Weight (kg)</label>
+        <input type="number" id="weight" placeholder="e.g., 68" step = "0.1">
+    </div>
+
+    <div class="result" id="resultBox">
+        <div class="bmi-value" id="bmiValue">—</div>
+        <div class="bmi-category" id="bmiCategory">Ready</div>
+        <div id="bmiDesc" style="font-size: 0.75rem; color: #6c86a3;">Enter height & weight</div>
+        <div id="genderHint" style="font-size: 0.7rem; margin-top: 0.5rem;">♂️ Male</div>
+    </div>
+
+    <div class="button-group">
+        <button class="btn-calc" onclick="calculateBMI()">Calculate BMI</button>
+        <button class="btn-clear" onclick="clearAll()">Clear</button>
+    </div>
+
+    <div id="errorMsg" class="error"></div>
+    <div class="info">💡 BMI = weight(kg) / height(m)² | Under &lt;18.5 | Normal 18.5–24.9 | Over 25–29.9 | Obese ≥30</div>
+</div>
+
+<script>
+    
+    let currentGender = 'male';
+
+    function selectGender(gender) {
+        currentGender = gender;
+        document.getElementById('genderValue').value = gender;
+        
+        document.querySelectorAll('.gender-option').forEach(opt => {
+            if (opt.getAttribute('data-gender') === gender) {
+                opt.classList.add('selected');
+            } else {
+                opt.classList.remove('selected');
+            }
+        });
+        
+        const hint = gender === 'male' ? '♂️ Male profile' : '♀️ Female profile';
+        document.getElementById('genderHint').innerHTML = hint;
+        
+        const h = parseFloat(document.getElementById('height').value);
+        const w = parseFloat(document.getElementById('weight').value);
+        if (!isNaN(h) && !isNaN(w) && h > 0 && w > 0) {
+            calculateBMI();
+        }
+    }
+
+    function calculateBMI() {
+        hideError();
+        
+        let h = parseFloat(document.getElementById('height').value);
+        let w = parseFloat(document.getElementById('weight').value);
+        
+        if (isNaN(h) || isNaN(w) || h <= 0 || w <= 0) {
+            showError('Please enter valid height and weight');
+            return;
+        }
+        
+        if (h < 50 || h > 300) {
+            showError('Height must be between 50-300 cm');
+            return;
+        }
+        
+        if (w < 2 || w > 500) {
+            showError('Weight must be between 2-500 kg');
+            return;
+        }
+        
+        let bmi = w / ((h / 100) * (h / 100));
+        let bmiRounded = Math.round(bmi * 10) / 10;
+        
+        let category = '', colorClass = '';
+        if (bmi < 18.5) {
+            category = 'Underweight ⚡';
+            colorClass = 'underweight';
+        } else if (bmi <= 24.9) {
+            category = 'Normal weight ✅';
+            colorClass = 'normal';
+        } else if (bmi <= 29.9) {
+            category = 'Overweight ⚠️';
+            colorClass = 'overweight';
+        } else {
+            category = 'Obese 🔴';
+            colorClass = 'obese';
+        }
+        
+        document.getElementById('bmiValue').innerHTML = bmiRounded;
+        document.getElementById('bmiCategory').innerHTML = category;
+        document.getElementById('bmiDesc').innerHTML = 'Your BMI result';
+        
+        const resultBox = document.getElementById('resultBox');
+        resultBox.classList.remove('underweight', 'normal', 'overweight', 'obese');
+        resultBox.classList.add(colorClass);
+    }
+    
+    function clearAll() {
+        document.getElementById('height').value = '170';
+        document.getElementById('weight').value = '68';
+        selectGender('male');
+        calculateBMI();
+    }
+    
+    function showError(msg) {
+        const errDiv = document.getElementById('errorMsg');
+        errDiv.innerHTML = '⚠️ ' + msg;
+        errDiv.style.display = 'block';
+        setTimeout(() => {
+            errDiv.style.display = 'none';
+        }, 3000);
+    }
+    
+    function hideError() {
+        document.getElementById('errorMsg').style.display = 'none';
+    }
+    
+    document.getElementById('height').onkeypress = function(e) {
+        if (e.key === 'Enter') calculateBMI();
+    };
+    document.getElementById('weight').onkeypress = function(e) {
+        if (e.key === 'Enter') calculateBMI();
+    };
+</script>
+
+</body>
+</html>
